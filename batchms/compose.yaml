@@ -1,0 +1,11 @@
+services:
+  mysql:
+    container_name: 'pagnet-mysql'
+    image: 'mysql:latest'
+    environment:
+      - 'MYSQL_DATABASE=pagnetdb'
+      - 'MYSQL_PASSWORD=pagnet123'
+      - 'MYSQL_ROOT_PASSWORD=pagnet123'
+      - 'MYSQL_USER=admin'
+    ports:
+      - '3306:3306'
