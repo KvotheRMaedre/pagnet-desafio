@@ -22,7 +22,7 @@ public class CnabController {
     }
 
     @PostMapping("upload")
-    public ResponseEntity<Void> upload(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<Void> upload(@RequestParam("file") MultipartFile file) throws Exception {
         cnabService.uploadCnabFile(file);
         return ResponseEntity.accepted().build();
     }
