@@ -1,4 +1,4 @@
-package tech.kvothe.batchms.dto;
+package tech.kvothe.batchms.entity;
 
 import java.math.BigDecimal;
 import java.sql.Date;
