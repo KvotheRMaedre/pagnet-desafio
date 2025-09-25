@@ -26,8 +26,7 @@ public class TransactionService {
         var reportMap = new LinkedHashMap<String, TransactionReport>();
         transactions.forEach( transaction -> {
             var nomeDaLoja = transaction.nomeDaLoja();
-            var tipoTransaction = TransactionType.findByType(transaction.tipo());
-            var valorTransacao = transaction.valor().multiply(tipoTransaction.getSinal());
+            var valorTransacao = transaction.valor();
 
             reportMap.compute(nomeDaLoja, (key, existingReport) -> {
                 var report  = (existingReport != null) ? existingReport :
@@ -35,7 +34,7 @@ public class TransactionService {
 
                 return report
                         .addTotal(valorTransacao)
-                        .addTransaction(transaction.withValue(valorTransacao));
+                        .addTransaction(transaction);
             });
         });
         return new ArrayList<>(reportMap.values());

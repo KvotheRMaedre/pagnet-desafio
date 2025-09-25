@@ -25,6 +25,7 @@ import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
 import tech.kvothe.batchms.entity.Transaction;
 import tech.kvothe.batchms.entity.TransactionCNAB;
+import tech.kvothe.batchms.entity.TransactionType;
 
 import javax.sql.DataSource;
 import java.math.BigDecimal;
@@ -86,17 +87,21 @@ public class BatchConfig {
     @Bean
     ItemProcessor<TransactionCNAB, Transaction> processor() {
         return item -> {
+            var typeTransaction = TransactionType.findByType(item.tipo());
+            var valueTransaction = item.valor()
+                    .divide(BigDecimal.valueOf(100))
+                    .multiply(typeTransaction.getSinal());
+
             var transaction = new Transaction(
                     null,
                     item.tipo(),
                     null,
-                    item.valor(),
+                    valueTransaction,
                     item.cpf(),
                     item.cartao(),
                     null,
                     item.donoDaLoja().trim(),
                     item.nomeDaLoja().trim())
-                    .withValue(item.valor().divide(BigDecimal.valueOf(100)))
                     .withDate(item.data())
                     .withHour(item.hora());
             return transaction;
